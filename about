@@ -1,0 +1,51 @@
+Hospital Management System for Receptionist Use
+Problem Statement:
+The hospital previously maintained patient records in a physical register, which made it difficult to keep track of checked, emergency, and cancelled patients.
+Additionally, payment transaction details were shared through a WhatsApp group using images, which were later verified manually.
+
+Solution:
+This project introduces a systematic approach by storing all patient and payment data in a structured database. This allows easy retrieval, updating, and deletion of records as needed. 
+The system streamlines the receptionist’s workflow and improves data accuracy.
+
+Project Components:
+Backend:
+Flask File: myapp.py
+
+SQLite3 Database: hospital.db, which contains the following three tables:
+                  1.User – Stores receptionist details including username and password.
+                  2.Appointments – Stores patient appointment details such as type (checkup, follow-up, emergency), date, and status (checked, cancelled).
+                  3.Payment – Stores payment details along with payment mode (cash, online, cheque).
+
+Frontend (HTML + CSS in templates folder):
+                  1.createLogin.html – Allows a receptionist to register by filling in personal details and creating a username and password.
+                  2.login.html – Login page for receptionist access.
+                  3.book.html – Used to add patient appointments by entering patient details, doctor's name, appointment date, and type (checkup, follow-up, emergency).
+
+    Appointment Management Pages:
+      These pages display patient data filtered by category and date. 
+      They also support marking patients as checked or cancelled (for upcoming and emergency cases), and allow deleting records.
+
+                  4.view.html – Displays upcoming patient appointments (checkup and follow-up).
+                  5.Eview.html – Displays emergency patient appointments.
+                  6.checked.html – Shows records of checked patients.
+                  7.Cancel.html – Displays records of cancelled appointments.
+
+    Payment Management Pages:
+      Payments can be recorded through payment.html, and filtered or categorized by payment mode. Each page shows the total amount received and supports record deletion.
+
+                  8.payment.html – Used to add payment details. It requests specific information based on the selected payment mode:
+                                  Cash: No extra fields.
+                                  Online: Requires transaction ID.
+                                  Cheque: Requires cheque number, cheque date, and bank name.
+
+                  9.cash.html – Displays cash payment records.
+                  10.online.html – Displays online payment records.
+                  11.cheaque.html – Displays cheque payment records.
+                  12.total.html – Shows payment records across all modes.
+
+                  13.emergency.html – Contains a list of emergency contact numbers.
+
+                  14.profile.html – Displays the receptionist's profile with options to delete the profile or log out.
+
+Other:
+Photos and static assets are stored in the static folder.
