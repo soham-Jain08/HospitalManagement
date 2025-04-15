@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Appointments</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #ffffff;
+      padding: 20px 10px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar .logo img {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 10px;
+      margin-bottom: 15px;
+      text-decoration: none;
+      color: #1a3c84;
+      font-size: 16px;
+      font-weight: bold; /* Bold menu options */
+      border-radius: 5px;
+      transition: 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar .menu-item img {
+      margin-right: 10px;
+      width: 24px;
+    }
+
+    /* Active Menu Item Styles */
+    .sidebar .menu-item.active {
+      background-color: #eaf3ff;
+      color: #1a3c84;
+      font-size: 18px; /* Increased font size for selected option */
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transform: scale(1.05);
+    }
+
+    /* Animation for active menu item */
+    .sidebar .menu-item.active::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 100%;
+      background-color: rgba(26, 60, 132, 0.2);
+      z-index: -1;
+      transition: width 0.4s ease-in-out;
+    }
+
+    .sidebar .menu-item.active:hover::before {
+      width: 100%;
+    }
+
+    .sidebar .menu-item:hover {
+      background-color: #eaf3ff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transform: scale(1.05);
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .form-container {
+      max-width: 800px ;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #1a3c84;
+      margin-bottom: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .form-grid input, .form-grid select {
+      width: 95%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: 0.3s ease;
+    }
+
+    /* Input focus animation */
+    .form-grid input:focus, .form-grid select:focus {
+      border-color: #1a3c84;
+      box-shadow: 0 0 8px rgba(26, 60, 132, 0.4);
+      transform: scale(1.02);
+      outline: none;
+    }
+
+    .radio-group {
+      grid-column: span 2;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 30px; /* Added more space */
+    }
+
+    .radio-group label {
+      font-size: 16px;
+      color: #1a3c84;
+    }
+
+    .submit-btn {
+      grid-column: span 2;
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #1a3c84;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    /* Button hover animation */
+    .submit-btn:hover {
+      background-color: #16305f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .radio-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='logo_hospital.PNG') }}" alt="Sahastrabudhe Hospital & I.C.C.U.">
+    </div>
+    <a href="{{ url_for('book') }}" class="menu-item">
+      <img src="{{ url_for('static', filename='calendar.PNG') }}" alt="Add Appointments">
+      Add Appointments
+    </a>
+    <a href="{{ url_for('view') }}" class="menu-item">
+      <img src="{{ url_for('static', filename='appointment.PNG') }}" alt="View Appointments">
+      View Appointments
+    </a>
+    <a href="{{ url_for('payment') }}" class="menu-item">
+      <img src="{{ url_for('static', filename='wallet.PNG') }}" alt="Payments">
+      Add Payments
+    </a>
+    <a href="{{ url_for('cash') }}" class="menu-item">
+      <img src="{{ url_for('static', filename='blood-test.PNG') }}" alt="Tests">
+      View Payments
+    </a>
+    <a href="{{ url_for('emergency') }}" class="menu-item">
+      <img src="{{ url_for('static', filename='emergency-call.PNG') }}" alt="Emergency">
+      Emergency
+    </a>
+    <a href="{{ url_for('profile') }}" class="menu-item active">
+      <img src="{{ url_for('static', filename='user.PNG') }}" alt="Profile">
+      Profile
+    </a>
+  </div>
+  <div class="content">
+    <div class="form-container">
+      <h1>Add Appointments -</h1>
+      <form action="/add_appointment" method="POST">
+        <div class="form-grid">
+          <input type="text" name="first_name" placeholder="First Name" required>
+          <input type="text" name="last_name" placeholder="Last Name" required>
+          <input type="number" name="age" placeholder="Age" required>
+          <input type="text" name="mobile_number" placeholder="Mobile number" required>
+          <input type="text" name="address" placeholder="Address" required>
+          <input type="text" name="city" placeholder="City" required>
+          <input type="text" name="dr_name" placeholder="Name of Doctor" required>
+          <input type="date" name="date" required>
+        </div>
+        <div class="radio-group">
+          <label><input type="radio" name="appointment_type" value="Checkup" required> Checkup</label>
+          <label><input type="radio" name="appointment_type" value="Follow-up" required> Follow-up</label>
+          <label><input type="radio" name="appointment_type" value="Emergency" required> Emergency</label>
+        </div>
+        <button type="submit" class="submit-btn" onclick="return alert('Appointment booked successfully!!')">Book an appointment</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

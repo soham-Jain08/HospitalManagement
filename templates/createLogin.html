@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Login</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      text-align: center;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .logo img {
+      width: 250px;
+    }
+
+    .form-box {
+      margin-top: 20px;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #1a3c84;
+      margin-bottom: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .form-grid input {
+      width: 95%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: 0.3s ease;
+    }
+
+    /* Input focus animation */
+    .form-grid input:focus {
+      border-color: #1a3c84;
+      box-shadow: 0 0 8px rgba(26, 60, 132, 0.4);
+      transform: scale(1.02);
+      outline: none;
+    }
+
+    .actions {
+      font-size: 14px;
+      margin: 20px 0;
+    }
+
+    .actions a {
+      color: #1a3c84;
+      text-decoration: none;
+      font-weight: bold;
+      position: relative;
+      transition: 0.3s ease;
+    }
+
+    /* Hover animation for "Login now" link */
+    .actions a:hover {
+      text-decoration: underline;
+      color: #16305f;
+      transform: scale(1.1);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #1a3c84;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    /* Button hover animation */
+    .submit-btn:hover {
+      background-color: #16305f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='logo_hospital.PNG') }}" alt="Sahastrabudhe Hospital & I.C.C.U.">
+
+    </div>
+    <div class="form-box">
+      <h1>Create Login -</h1>
+      <form action="/createLogin" method="POST">
+        <div class="form-grid">
+          <input type="text" name="first_name" placeholder="First Name" required>
+          <input type="text" name="last_name" placeholder="Last Name" required>
+          <input type="email" name="email" placeholder="Gmail" required>
+          <input type="text" name="mobile_number" placeholder="Mobile number" required>
+          <input type="text" name="username" placeholder="Username" required>
+          <input type="password" name="password" placeholder="Password" required>
+        </div>
+        <div class="actions">
+          <p>Already have login? <a href="{{ url_for('login_page') }}">Login now</a></p>
+        </div>
+        <button type="submit" class="submit-btn" onclick="window.location.href='login.html'">Create Profile</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

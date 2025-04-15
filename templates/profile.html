@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #ffffff;
+      padding: 20px 10px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar .logo img {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 10px;
+      margin-bottom: 15px;
+      text-decoration: none;
+      color: #1a3c84;
+      font-size: 16px;
+      font-weight: bold; /* Bold menu options */
+      border-radius: 5px;
+      transition: 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar .menu-item img {
+      margin-right: 10px;
+      width: 24px;
+    }
+
+    /* Active Menu Item Styles */
+    .sidebar .menu-item.active {
+      background-color: #eaf3ff;
+      color: #1a3c84;
+      font-size: 18px; /* Increased font size for selected option */
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transform: scale(1.05);
+    }
+
+    /* Animation for active menu item */
+    .sidebar .menu-item.active::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 100%;
+      background-color: rgba(26, 60, 132, 0.2);
+      z-index: -1;
+      transition: width 0.4s ease-in-out;
+    }
+
+    .sidebar .menu-item.active:hover::before {
+      width: 100%;
+    }
+
+    .sidebar .menu-item:hover {
+      background-color: #eaf3ff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transform: scale(1.05);
+    }
+
+
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .content h1 {
+      font-size: 24px;
+      color: #1a3c84;; /* Red color for emergency title */
+      margin-bottom: 20px;
+    }
+
+    .contact-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .contact-card {
+      background-color: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 15px 20px;
+      transition: 0.3s ease;
+    }
+
+    .contact-card span {
+      font-weight: bold;
+      color: #1a3c84;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .contact-card .numbers {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+
+    .button-container {
+      margin-top: 30px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .button {
+      background-color: #0073e6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .button:hover {
+      background-color: #005bb5;
+      transform: scale(1.05);
+    }
+
+    .logout-button {
+      background-color: #e60000;
+    }
+
+    .logout-button:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+          <img src="{{ url_for('static', filename='logo_hospital.PNG') }}" alt="Sahastrabudhe Hospital & I.C.C.U.">
+        </div>
+        <a href="{{ url_for('book') }}" class="menu-item">
+          <img src="{{ url_for('static', filename='calendar.PNG') }}" alt="Add Appointments">
+          Add Appointments
+        </a>
+        <a href="{{ url_for('view') }}" class="menu-item">
+          <img src="{{ url_for('static', filename='appointment.PNG') }}" alt="View Appointments">
+          View Appointments
+        </a>
+        <a href="{{ url_for('payment') }}" class="menu-item">
+          <img src="{{ url_for('static', filename='wallet.PNG') }}" alt="Payments">
+          Add Payments
+        </a>
+        <a href="{{ url_for('cash') }}" class="menu-item">
+          <img src="{{ url_for('static', filename='blood-test.PNG') }}" alt="Tests">
+          View Payments
+        </a>
+        <a href="{{ url_for('emergency') }}" class="menu-item">
+          <img src="{{ url_for('static', filename='emergency-call.PNG') }}" alt="Emergency">
+          Emergency
+        </a>
+        <a href="{{ url_for('profile') }}" class="menu-item active">
+          <img src="{{ url_for('static', filename='user.PNG') }}" alt="Profile">
+          Profile
+        </a>
+      </div>
+  <div class="content">
+    <h1>Profile Information</h1>
+    {% if user %}
+    <div class="contact-card">
+      <p><span>First Name:</span> {{ user.first_name }}</p>
+      <p><span>Last Name:</span> {{ user.last_name}}</p>
+      <p><span>Email:</span> {{ user.email}}</p>
+      <p><span>Mobile Number:</span> {{ user.mobile_number}}</p>
+      <p><span>Username:</span> {{ user.username}}</p>
+      <p><span>Password:</span> {{ user.password}}</p>
+    </div>
+    <div class="button-container">
+      
+      <button class="button">
+        <a href="{{ url_for('delete_profile')}}" 
+        onclick="return confirm('Are you sure you want to delete your account?')" 
+        style="color: white;  text-decoration: none;">Delete Profile</button>
+      <button class="button logout-button">
+        <a href="{{ url_for('logout')}}" 
+        onclick="return confirm('Are you sure you want to Logout your account?')" 
+        style="color: white;  text-decoration: none;">Logout</button>
+    </div>
+    {% else %}
+    <p>User not found.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Appointments</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: #ffffff;
+      padding: 20px 10px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar .logo img {
+      width: 200px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 10px;
+      margin-bottom: 15px;
+      text-decoration: none;
+      color: #1a3c84;
+      font-size: 16px;
+      font-weight: bold; /* Bold menu options */
+      border-radius: 5px;
+      transition: 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sidebar .menu-item img {
+      margin-right: 10px;
+      width: 24px;
+    }
+
+    /* Active Menu Item Styles */
+    .sidebar .menu-item.active {
+      background-color: #eaf3ff;
+      color: #1a3c84;
+      font-size: 18px; /* Increased font size for selected option */
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transform: scale(1.05);
+    }
+
+    /* Animation for active menu item */
+    .sidebar .menu-item.active::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0;
+      height: 100%;
+      background-color: rgba(26, 60, 132, 0.2);
+      z-index: -1;
+      transition: width 0.4s ease-in-out;
+    }
+
+    .sidebar .menu-item.active:hover::before {
+      width: 100%;
+    }
+
+    .sidebar .menu-item:hover {
+      background-color: #eaf3ff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transform: scale(1.05);
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .form-container {
+      max-width: 800px ;
+      margin: auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #1a3c84;
+      margin-bottom: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .form-grid input, .form-grid select {
+      width: 95%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: 0.3s ease;
+    }
+
+    /* Input focus animation */
+    .form-grid input:focus, .form-grid select:focus {
+      border-color: #1a3c84;
+      box-shadow: 0 0 8px rgba(26, 60, 132, 0.4);
+      transform: scale(1.02);
+      outline: none;
+    }
+
+    .radio-group {
+      grid-column: span 2;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      margin-top: 10px;
+      margin-bottom: 30px; /* Added more space */
+    }
+
+    .delete-btn {
+      grid-column: span 2;
+      width: 10%;
+      padding: 10px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #ec0b0b;
+      border-width: 2px;
+      border-color: #000;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      
+    }
+
+    /* Button hover animation */
+    .delete-btn:hover {
+      background-color: #a70707;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    .radio-group label {
+      font-size: 16px;
+      color: #1a3c84;
+    }
+
+    .submit-btn {
+      grid-column: span 2;
+      width: 20%;
+      padding: 10px;
+      font-size: 16px;
+      color: #000;
+      background-color: #fff;
+      border-width: 2px;
+      border-color: #000;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      
+    }
+
+    /* Button hover animation */
+    .submit-btn:hover {
+      background-color: #16305f;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .current-btn {
+      grid-column: span 2;
+      width: 20%;
+      padding: 10px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #1a3c84;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      
+    }
+
+    /* Button hover animation */
+    .current-btn:hover {
+      background-color: #16305f;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .radio-group {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+table {
+            width: 100%;
+            border-collapse: collapse;
+      }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+.status-btn {
+    padding: 6px 12px;
+    margin: 2px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.checked {
+    background-color: #28a745;
+    color: white;
+}
+
+.cancelled {
+    background-color: #dc3545;
+    color: white;
+}
+
+.status-btn:hover {
+    opacity: 0.8;
+}
+
+.amount-date-container {
+    display: flex;
+    justify-content: space-between; /* Left & Right Alignment */
+    align-items: center; /* Vertical Centering */
+    padding: 10px 20px;
+    /* background-color: #fff; */
+    border-radius: 10px;
+    /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
+    margin-bottom: 20px;
+}
+.total-amount {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1a3c84;
+    margin: 0;
+}
+.date-filter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.date-input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: 0.3s ease;
+    outline: none;
+    width: 150px;
+}
+
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='logo_hospital.PNG') }}" alt="Sahastrabudhe Hospital & I.C.C.U.">
+    </div>
+    <a href="{{ url_for('book') }}" class="menu-item">
+      <img src="{{ url_for('static', filename='calendar.PNG') }}" alt="Add Appointments">
+      Add Appointments
+    </a>
+    <a href="{{ url_for('view') }}" class="menu-item">
+      <img src="{{ url_for('static', filename='appointment.PNG') }}" alt="View Appointments">
+      View Appointments
+    </a>
+    <a href="{{ url_for('payment') }}" class="menu-item">
+      <img src="{{ url_for('static', filename='wallet.PNG') }}" alt="Payments">
+      Add Payments
+    </a>
+    <a href="{{ url_for('cash') }}" class="menu-item">
+      <img src="{{ url_for('static', filename='blood-test.PNG') }}" alt="View Payments">
+      View Payments
+    </a>
+    <a href="{{ url_for('emergency') }}" class="menu-item">
+      <img src="{{ url_for('static', filename='emergency-call.PNG') }}" alt="Emergency">
+      Emergency
+    </a>
+    <a href="{{ url_for('profile') }}" class="menu-item active">
+      <img src="{{ url_for('static', filename='user.PNG') }}" alt="Profile">
+      Profile
+    </a>
+  </div>
+  <div class="content">
+    <h1>View Appointments</h1>
+
+    <div class="button-container">
+        <button type="submit" class="submit-btn" onclick="window.location.href='{{ url_for('view') }}'">Next Patients</button>
+        <button type="submit" class="current-btn" onclick="window.location.href='{{ url_for('Eview') }}'">Emergency Patients</button>
+        <button class="submit-btn" onclick="window.location.href='{{ url_for('checked') }}'">Checked-out Patients</button>
+        <button class="submit-btn" onclick="window.location.href='{{ url_for('Cancel') }}'">Cancelled Patients</button>
+    </div>
+    <br>
+    <div class="amount-date-container">
+      <h2 class="total-amount">Emergency Patients: {{ total_patient if total_patient else 0 }}</h2>
+      
+      <form method="POST" class="date-filter-form">
+          <label for="selected_date"><b>Select Date:</b></label>
+          <input type="date" name="selected_date" id="selected_date" value="{{ selected_date }}" class="date-input">
+          <button type="submit" class="submit-btn">Filter</button>
+      </form>
+      <!-- <button type= "submit" class= "delete-btn">Delete Data</button> -->
+  </div><br>
+    <table>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Age</th>
+          <th>Mobile No.</th>
+          <th>Doctor Name</th>
+          <th>Appointment Date</th>
+        </tr>
+      </thead>
+      <tbody id="appointments-table">
+        {% for row in appointments %}
+        <tr>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[6] }}</td>
+            <td>
+                <button class="status-btn checked" onclick="window.location.href='{{ url_for('check', appointment_id=row[0]) }}'">Checked</button>
+                <button class="status-btn cancelled" onclick="window.location.href='{{ url_for('cancelled', appointment_id=row[0]) }}'">Cancel</button>
+
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    
+    </table>
+  </div>
+</body>
+</html>
